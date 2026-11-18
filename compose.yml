@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes: [db:/var/lib/postgresql]
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 2s
+  ml:
+    build: ./ml
+    volumes: [models:/models]
+    ports: ["8000:8000"]
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.dev
+    command: sh -c "rm -f tmp/pids/server.pid && bundle install --quiet && bin/rails db:prepare && bin/rails s -b 0.0.0.0"
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432
+      ML_URL: http://ml:8000
+    volumes: [./web:/rails, bundle:/usr/local/bundle]
+    ports: ["3000:3000"]
+    depends_on:
+      db: {condition: service_healthy}
+volumes: {db: {}, models: {}, bundle: {}}

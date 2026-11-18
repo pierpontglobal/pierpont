@@ -1,0 +1,19 @@
+<section class="panel" id="auction_<%= auction.id %>_panel">
+  <% if auction.live? %>
+    <div class="spread"><span class="eyebrow"><%= auction.current_bid_usd ? "Current bid" : "Starting bid" %></span><%= countdown_tag(auction) %></div>
+    <div class="big"><%= usd(auction.current_bid_usd || auction.starting_bid_usd) %></div>
+    <div class="row">
+      <span class="badge neutral"><%= pluralize(auction.bids_count, "bid") %></span>
+      <% if auction.reserve_usd %><span class="badge <%= auction.reserve_met? ? "good" : "neutral" %>"><%= auction.reserve_met? ? "Reserve met" : "Reserve not met" %></span><% else %><span class="badge good">No reserve</span><% end %>
+      <% if (est = auction.vehicle.estimate_usd) && auction.current_bid_usd %>
+        <span class="badge est"><%= auction.current_bid_usd < est ? "#{((1 - auction.current_bid_usd.to_f / est) * 100).round}% under estimate" : "#{((auction.current_bid_usd.to_f / est - 1) * 100).round}% over estimate" %></span>
+      <% end %>
+    </div>
+    <p class="hint">Ends <%= l(auction.ends_at, format: :long) %> UTC. Bids in the last 2 minutes extend the auction.</p>
+  <% else %>
+    <span class="eyebrow">Auction ended</span>
+    <div class="big"><%= usd(auction.current_bid_usd) %></div>
+    <p><%= auction.winner ? "Won by #{auction.winner.display_name}." : (auction.bids_count.zero? ? "No bids were placed." : "Reserve not met.") %></p>
+    <% if auction.demo %><p class="hint">Demo auctions relist automatically a few minutes after they end.</p><% end %>
+  <% end %>
+</section>

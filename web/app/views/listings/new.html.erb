@@ -1,0 +1,64 @@
+<% content_for :title, "Sell a car" %>
+<%= form_with model: @vehicle, url: listings_path, class: "sell", data: { controller: "listing", listing_vin_url_value: assist_vin_path, listing_photo_url_value: assist_photo_path, listing_estimate_url_value: assist_estimate_path } do |f| %>
+  <div class="stack" style="gap:16px">
+    <div>
+      <p class="eyebrow">Sell a car</p>
+      <h1 style="font-size:clamp(26px,4vw,36px)">List it in two minutes.</h1>
+      <p class="muted" style="margin-top:8px">Enter the VIN and add a photo. We decode the VIN with NHTSA, read body style and color from the photo, and price it before you set a starting bid.</p>
+    </div>
+    <% if @vehicle.errors.any? %><div class="errors" role="alert"><%= @vehicle.errors.full_messages.to_sentence %></div><% end %>
+
+    <section class="section">
+      <h2>1. Vehicle</h2>
+      <div class="field">
+        <%= f.label :vin, "VIN" %>
+        <div class="bidform">
+          <%= f.text_field :vin, maxlength: 17, autocomplete: "off", spellcheck: false, placeholder: "17 characters", data: { listing_target: "vin" }, style: "text-transform:uppercase;font-family:var(--mono)" %>
+          <button type="button" class="btn" data-action="listing#decode">Decode</button>
+        </div>
+        <p class="hint" data-listing-target="vinStatus">No VIN handy? Try 1HGCM82633A004352 or fill in the fields yourself.</p>
+      </div>
+      <div class="grid-3">
+        <div class="field"><%= f.label :year %><%= f.number_field :year, min: 1980, max: Date.current.year + 1, data: { listing_target: "year", action: "change->listing#estimate" } %></div>
+        <div class="field"><%= f.label :make %><%= f.text_field :make, data: { listing_target: "make", action: "change->listing#estimate" } %></div>
+        <div class="field"><%= f.label :model %><%= f.text_field :model, data: { listing_target: "model", action: "change->listing#estimate" } %></div>
+      </div>
+      <div class="grid-3">
+        <div class="field"><%= f.label :trim %><%= f.text_field :trim, data: { listing_target: "trim" } %></div>
+        <div class="field"><%= f.label :mileage %><%= f.number_field :mileage, min: 0, max: 500_000, step: 1, inputmode: "numeric", data: { listing_target: "mileage", action: "change->listing#estimate" } %></div>
+        <div class="field"><%= f.label :body_style %><%= f.select :body_style, Vehicle::BODY_STYLES, { include_blank: "Choose" }, data: { listing_target: "body" } %></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. Photo</h2>
+      <div class="dropzone">
+        <img data-listing-target="preview" hidden alt="Selected photo">
+        <%= f.file_field :photo, accept: "image/jpeg,image/png,image/webp", data: { listing_target: "photo", action: "change->listing#analyze" } %>
+        <p class="hint">JPEG, PNG or WebP up to 8 MB. Photos that don't show a vehicle are rejected.</p>
+      </div>
+      <div data-listing-target="insights" hidden class="stack">
+        <span class="ai">Read from your photo</span>
+        <div class="suggest" data-listing-target="suggestions"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><%= f.label :color %><%= f.text_field :color, data: { listing_target: "color" } %></div>
+      </div>
+      <div class="field"><%= f.label :description %><%= f.text_area :description, rows: 3, maxlength: 2000 %></div>
+    </section>
+  </div>
+
+  <aside class="stack">
+    <section class="section">
+      <div class="spread"><h2>Market estimate</h2><span class="ai">ML</span></div>
+      <div data-listing-target="estimate"><p class="muted">Fill in year, make, model and mileage to see an estimate.</p></div>
+    </section>
+    <section class="section">
+      <h2>3. Auction</h2>
+      <div class="field"><%= label_tag :starting_bid_usd, "Starting bid (USD)" %><%= number_field_tag :starting_bid_usd, params[:starting_bid_usd] || 1000, min: 100, step: 100, required: true, data: { listing_target: "start" } %></div>
+      <div class="field"><%= label_tag :reserve_usd, "Reserve (optional)" %><%= number_field_tag :reserve_usd, params[:reserve_usd], min: 100, step: 100 %></div>
+      <div class="field"><%= label_tag :duration_minutes, "Duration" %><%= select_tag :duration_minutes, options_for_select(ListingsController::DURATIONS, params[:duration_minutes] || 120) %></div>
+      <%= f.submit "Start auction", class: "btn primary" %>
+    </section>
+  </aside>
+<% end %>

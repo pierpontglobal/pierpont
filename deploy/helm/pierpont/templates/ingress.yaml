@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pierpont
+  labels: {{- include "pierpont.labels" . | nindent 4 }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.tlsIssuer }}
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: {{ .Values.ingressClass }}
+  tls: [{ hosts: [{{ .Values.host }}], secretName: {{ .Values.host | replace "." "-" }}-tls }]
+  rules:
+    - host: {{ .Values.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: pierpont-web, port: { name: http } } }
+{{- range .Values.redirectHosts }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pierpont-redirect-{{ . | replace "." "-" }}
+  labels: {{- include "pierpont.labels" $ | nindent 4 }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ $.Values.tlsIssuer }}
+    nginx.ingress.kubernetes.io/permanent-redirect: https://{{ $.Values.host }}
+spec:
+  ingressClassName: {{ $.Values.ingressClass }}
+  tls: [{ hosts: [{{ . }}], secretName: {{ . | replace "." "-" }}-tls }]
+  rules:
+    - host: {{ . }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: pierpont-web, port: { name: http } } }
+{{- end }}

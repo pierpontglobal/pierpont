@@ -1,0 +1,40 @@
+host: ppg.hect.dev
+redirectHosts: []
+tlsIssuer: letsencrypt-prod
+ingressClass: nginx
+imagePullSecrets: []
+
+web:
+  image: container.hect.dev/pierpont_global/pierpont-web
+  tag: latest
+  # Existing secret with SECRET_KEY_BASE
+  secretName: pierpont-web
+  storage: 2Gi
+  resources:
+    requests: { cpu: 50m, memory: 256Mi }
+    limits: { memory: 640Mi }
+
+ml:
+  image: container.hect.dev/pierpont_global/pierpont-ml
+  tag: latest
+  storage: 1Gi
+  threads: 2
+  resources:
+    requests: { cpu: 50m, memory: 320Mi }
+    limits: { cpu: "2", memory: 768Mi }
+  retrain:
+    schedule: "17 4 * * 1"
+    resources:
+      requests: { cpu: 100m, memory: 512Mi }
+      limits: { memory: 1Gi }
+
+postgres:
+  image: postgres:18.7-alpine
+  # Existing secret with POSTGRES_PASSWORD
+  secretName: pierpont-db
+  storage: 4Gi
+  resources:
+    requests: { cpu: 20m, memory: 96Mi }
+    limits: { memory: 384Mi }
+
+storageClass: local-fast

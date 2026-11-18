@@ -1,0 +1,27 @@
+<% content_for :title, "Live used-car auctions" %>
+<%= turbo_stream_from "auctions" %>
+<section class="hero">
+  <div>
+    <p class="eyebrow">Live auctions</p>
+    <h1>Bid on used cars with a fair-price guide on every listing.</h1>
+    <p class="lede">Each car shows a market estimate and an 80% price range from a model trained on thousands of US listings. Sellers list from a VIN and a photo; the rest is filled in for them.</p>
+  </div>
+  <div class="facts">
+    <div class="fact"><strong><%= Auction.live.count %></strong><span>auctions live</span></div>
+    <div class="fact"><strong><%= @mape ? "±#{@mape}%" : "ML" %></strong><span>typical price error</span></div>
+    <div class="fact"><strong>2 min</strong><span>anti-sniping extension</span></div>
+  </div>
+</section>
+
+<nav class="chips" aria-label="Body style">
+  <%= link_to "All", root_path, class: ["chip", ("on" if params[:body].blank?)] %>
+  <% Vehicle::BODY_STYLES.each do |style| %>
+    <%= link_to style, root_path(body: style), class: ["chip", ("on" if params[:body] == style)] %>
+  <% end %>
+</nav>
+
+<% if @auctions.any? %>
+  <div class="cards"><%= render partial: "auctions/card", collection: @auctions, as: :auction %></div>
+<% else %>
+  <p class="empty">No live auctions match. <%= link_to "Show all", root_path %></p>
+<% end %>

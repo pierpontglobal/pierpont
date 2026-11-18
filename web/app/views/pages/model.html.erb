@@ -1,0 +1,33 @@
+<% content_for :title, "How pricing works" %>
+<% m = @card&.dig("price", "metrics") %>
+<div class="prose" style="padding:36px 0 56px">
+  <p class="eyebrow">Model card</p>
+  <h1 style="font-size:clamp(28px,4vw,40px)">How the price estimate works</h1>
+  <p>Every listing gets a market estimate and an 80% range. The estimate comes from a gradient-boosted model (LightGBM) trained on average US asking prices per make, model and model year, with mileage and miles-per-year as features. The range is a split-conformal interval calibrated on held-out data, so roughly 8 in 10 true prices land inside it.</p>
+  <% if m %>
+    <div class="metrics">
+      <div class="fact"><strong><%= (m["mape"] * 100).round(1) %>%</strong><span>mean abs. % error (test)</span></div>
+      <div class="fact"><strong><%= (m["baseline_mape"] * 100).round(1) %>%</strong><span>baseline: median per model</span></div>
+      <div class="fact"><strong><%= (m["interval_coverage"] * 100).round(1) %>%</strong><span>interval coverage (target 80%)</span></div>
+      <div class="fact"><strong><%= usd(m["mae_usd"]) %></strong><span>mean abs. error</span></div>
+    </div>
+    <p class="muted">Model <span class="mono"><%= @card.dig("price", "version") %></span>, trained <%= @card.dig("price", "trained_at") %> on <%= number_with_delimiter(@card.dig("price", "rows")) %> make/model/year groups.</p>
+  <% else %>
+    <p class="muted">The pricing service is starting up; metrics will appear here shortly.</p>
+  <% end %>
+  <h2>Retraining</h2>
+  <ul>
+    <li>A weekly Kubernetes CronJob downloads the latest data, retrains, and evaluates on a held-out split.</li>
+    <li>The new model is promoted only if its error is no worse than 2% above the current one and its interval coverage stays within 5 points of 80%.</li>
+    <li>The API reloads promoted models without a restart and exports the loaded version and test error to Prometheus.</li>
+  </ul>
+  <h2>Photos</h2>
+  <p>Uploaded photos go through CLIP ViT-B/32, exported to ONNX and quantized to int8 (84 MB, about 28 ms per image on two CPU cores). Zero-shot prompts check that the photo shows a vehicle and suggest body style and color. On a small labeled set, body style was right first time on 75% of photos and in the top three on all of them; brand recognition was too unreliable to ship, so make and model come from the VIN instead.</p>
+  <h2>Limits</h2>
+  <ul>
+    <li>Training data are average asking prices, not sale prices, and don't see condition, trim or history.</li>
+    <li>Rare models with few listings get wider, less reliable ranges.</li>
+    <li>Auctions on this site are simulated and bids are not binding.</li>
+  </ul>
+  <p class="muted">Data: <a href="https://forcar.org/open-data/">ForCar open data</a>, CC BY 4.0.</p>
+</div>

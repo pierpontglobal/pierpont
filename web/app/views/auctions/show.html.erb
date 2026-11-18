@@ -1,0 +1,41 @@
+<% v = @auction.vehicle %>
+<% content_for :title, v.title %>
+<% content_for :description, "#{v.title}, #{miles(v.mileage)}. Live auction with a market estimate of #{usd(v.estimate_usd)}." %>
+<%= turbo_stream_from @auction %>
+<div class="auction">
+  <div>
+    <p class="muted" style="margin-bottom:10px"><%= link_to "← All auctions", root_path %></p>
+    <div class="photo"><%= vehicle_image(v, :hero, loading: "eager") %></div>
+    <% if v.photo_credit.present? %><p class="credit">Photo: <%= v.photo_source_url.present? ? link_to(v.photo_credit, v.photo_source_url, rel: "nofollow noopener") : v.photo_credit %></p><% end %>
+    <h1 style="margin-top:20px"><%= v.title %></h1>
+    <dl class="specs">
+      <div><dt>Mileage</dt><dd class="plain"><%= miles(v.mileage) %></dd></div>
+      <div><dt>Body</dt><dd><%= v.body_style || "—" %></dd></div>
+      <div><dt>Color</dt><dd><%= v.color || "—" %></dd></div>
+      <div><dt>VIN</dt><dd class="mono plain"><%= v.vin %></dd></div>
+      <div><dt>Seller</dt><dd class="plain"><%= v.seller.display_name %></dd></div>
+    </dl>
+    <% if v.description.present? %><p class="desc"><%= v.description %></p><% end %>
+
+    <% if v.estimate_usd %>
+      <section class="section" style="margin-top:24px">
+        <div class="spread">
+          <h2>Market estimate</h2>
+          <span class="ai">ML estimate · <%= link_to "how it works", model_card_path %></span>
+        </div>
+        <p><strong style="color:var(--ink);font-size:22px"><%= usd(v.estimate_usd) %></strong> <span class="muted">80% range <%= usd(v.estimate_low_usd) %> – <%= usd(v.estimate_high_usd) %></span></p>
+        <%= render "auctions/gauge", auction: @auction %>
+        <p class="hint">Based on average asking prices for the same make, model and year, adjusted for mileage. Model <span class="mono"><%= v.estimate_version %></span>.</p>
+      </section>
+    <% end %>
+  </div>
+  <aside class="stack">
+    <%= render "auctions/panel", auction: @auction %>
+    <% if @auction.live? %><%= render "bids/form", auction: @auction %><% end %>
+    <section class="section">
+      <h3>Bid history</h3>
+      <ul class="bids" id="auction_<%= @auction.id %>_bids"><%= render partial: "bids/bid", collection: @bids, as: :bid %></ul>
+      <% if @bids.empty? %><p class="muted" style="font-size:14px">No bids yet.</p><% end %>
+    </section>
+  </aside>
+</div>

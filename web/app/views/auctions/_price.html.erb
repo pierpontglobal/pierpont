@@ -1,0 +1,9 @@
+<div class="price-line" id="auction_<%= auction.id %>_price">
+  <div>
+    <span class="muted" style="font-size:12px"><%= auction.current_bid_usd ? "#{pluralize(auction.bids_count, "bid")}" : "Starting bid" %></span>
+    <div class="price"><%= usd(auction.current_bid_usd || auction.starting_bid_usd) %></div>
+  </div>
+  <% if (est = auction.vehicle.estimate_usd) %>
+    <span class="badge est" title="Market estimate">Est. <%= usd(est) %></span>
+  <% end %>
+</div>

@@ -1,0 +1,9 @@
+<% v = auction.vehicle
+   lo, hi = (v.estimate_low_usd * 0.7), (v.estimate_high_usd * 1.15)
+   pct = ->(x) { (((x - lo) / (hi - lo)) * 100).clamp(0, 100).round(1) }
+   bid = auction.current_bid_usd || auction.starting_bid_usd %>
+<div class="gauge" role="img" aria-label="Current bid <%= usd(bid) %> against estimate range <%= usd(v.estimate_low_usd) %> to <%= usd(v.estimate_high_usd) %>">
+  <span class="band" style="left:<%= pct.(v.estimate_low_usd) %>%;right:<%= 100 - pct.(v.estimate_high_usd) %>%"></span>
+  <span class="mark" style="left:<%= pct.(bid) %>%" data-label="<%= auction.current_bid_usd ? "Bid" : "Start" %> <%= usd(bid) %>"></span>
+</div>
+<div class="gauge-scale"><span><%= usd(lo.round(-2)) %></span><span><%= usd(hi.round(-2)) %></span></div>

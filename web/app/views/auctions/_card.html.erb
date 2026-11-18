@@ -1,0 +1,14 @@
+<% v = auction.vehicle %>
+<%= link_to auction_path(auction), class: "card" do %>
+  <div class="media">
+    <%= vehicle_image(v, :card) %>
+    <%= countdown_tag(auction, class: "badge time") %>
+  </div>
+  <div class="body">
+    <div>
+      <h3><%= v.title %></h3>
+      <p class="meta"><%= miles(v.mileage) %><% if v.body_style %> · <%= v.body_style %><% end %><% if v.color %> · <%= v.color %><% end %></p>
+    </div>
+    <%= render "auctions/price", auction: auction %>
+  </div>
+<% end %>

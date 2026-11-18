@@ -1,0 +1,12 @@
+<% content_for :title, "Create an account" %>
+<div class="auth">
+  <h1 style="font-size:26px">Create an account</h1>
+  <% if @user.errors.any? %><div class="errors" role="alert"><%= @user.errors.full_messages.to_sentence %></div><% end %>
+  <%= form_with model: @user, url: registration_path, class: "stack" do |f| %>
+    <div class="field"><%= f.label :name, "Name or dealership" %><%= f.text_field :name, required: true, maxlength: 60, autocomplete: "organization" %></div>
+    <div class="field"><%= f.label :email_address, "Email" %><%= f.email_field :email_address, required: true, autocomplete: "email" %></div>
+    <div class="field"><%= f.label :password %><%= f.password_field :password, required: true, minlength: 10, autocomplete: "new-password" %><p class="hint">At least 10 characters.</p></div>
+    <%= f.submit "Create account", class: "btn primary" %>
+  <% end %>
+  <p class="muted">Already registered? <%= link_to "Sign in", new_session_path %></p>
+</div>

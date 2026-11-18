@@ -1,0 +1,7 @@
+camry:
+  vehicle: camry
+  starts_at: <%= 1.hour.ago %>
+  ends_at: <%= 1.hour.from_now %>
+  starting_bid_usd: 10000
+  reserve_usd: 12000
+  status: live

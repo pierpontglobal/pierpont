@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= [content_for(:title), "Pierpont"].compact.join(" · ") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="<%= content_for(:description) || "Live used-car auctions with machine-learned price guidance, VIN decoding and photo-assisted listings." %>">
+    <meta name="theme-color" content="#3a3e43">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap">
+        <%= link_to root_path, class: "brand", "aria-label": "Pierpont home" do %><%= render "shared/logo" %>Pierpont<% end %>
+        <nav class="nav" aria-label="Main">
+          <%= link_to "Auctions", root_path %>
+          <%= link_to "Sell a car", new_listing_path %>
+          <%= link_to "How pricing works", model_card_path %>
+        </nav>
+        <div class="account">
+          <% if current_user %>
+            <span class="who muted"><%= current_user.display_name %></span>
+            <%= button_to "Sign out", session_path, method: :delete, class: "btn small ghost", form: { data: { turbo: false } } %>
+          <% else %>
+            <%= link_to "Sign in", new_session_path, class: "btn small ghost" %>
+            <%= button_to "Try the demo", demo_session_path(return_to: request.fullpath), class: "btn small primary" %>
+          <% end %>
+        </div>
+      </div>
+    </header>
+    <main id="main" class="wrap">
+      <% flash.each do |type, msg| %><p class="flash <%= type %>" role="status"><%= msg %></p><% end %>
+      <%= yield %>
+    </main>
+    <footer class="site">
+      <div class="wrap">
+        <p>Pierpont is a working demo by <a href="https://hect.dev">Hector Acosta</a>. Auctions are simulated; no real vehicles are sold. <a href="https://github.com/pierpontglobal/pierpont">Source</a></p>
+        <p>Price data: <a href="https://forcar.org/open-data/">ForCar</a> (CC BY 4.0). VIN decoding: <a href="https://vpic.nhtsa.dot.gov/api/">NHTSA vPIC</a>. Demo photos: Wikimedia Commons, credited on each listing.</p>
+      </div>
+    </footer>
+  </body>
+</html>

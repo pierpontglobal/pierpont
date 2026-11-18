@@ -1,0 +1,11 @@
+camry:
+  seller: seller
+  vin: 4T1B11HK5KU000001
+  year: 2020
+  make: Toyota
+  model: Camry
+  mileage: 50000
+  body_style: sedan
+  estimate_usd: 20000
+  estimate_low_usd: 15000
+  estimate_high_usd: 27000

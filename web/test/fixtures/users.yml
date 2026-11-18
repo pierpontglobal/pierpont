@@ -1,0 +1,12 @@
+seller:
+  name: Seller
+  email_address: seller@example.com
+  password_digest: <%= BCrypt::Password.create("password1234") %>
+alice:
+  name: Alice
+  email_address: alice@example.com
+  password_digest: <%= BCrypt::Password.create("password1234") %>
+bob:
+  name: Bob
+  email_address: bob@example.com
+  password_digest: <%= BCrypt::Password.create("password1234") %>

@@ -1,0 +1,5 @@
+FROM python:3.12-slim
+RUN apt-get update -qq && apt-get install -y -qq libgomp1 >/dev/null && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY pyproject.toml .
+RUN mkdir pierpont_ml && touch pierpont_ml/__init__.py && pip install -q --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -e ".[dev,train,export]"

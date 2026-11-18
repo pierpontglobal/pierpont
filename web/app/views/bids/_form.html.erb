@@ -1,0 +1,19 @@
+<section class="section" id="bid_form">
+  <% if local_assigns[:alert] %><p class="errors" role="alert"><%= alert %></p><% end %>
+  <% if local_assigns[:notice] %><p class="flash notice" style="margin:0" role="status"><%= notice %></p><% end %>
+  <% if current_user %>
+    <%= form_with url: auction_bids_path(auction), class: "stack" do |f| %>
+      <label for="amount_usd">Your bid (minimum <%= usd(auction.minimum_bid) %>)</label>
+      <div class="bidform">
+        <%= f.number_field :amount_usd, id: "amount_usd", value: auction.minimum_bid, min: auction.minimum_bid, step: Auction.increment_for(auction.minimum_bid), inputmode: "numeric", required: true %>
+        <%= f.submit "Place bid", class: "btn primary" %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>Sign in to bid, or try it with a guest account.</p>
+    <div class="row">
+      <%= button_to "Bid as a guest", demo_session_path(return_to: auction_path(auction)), class: "btn primary" %>
+      <%= link_to "Sign in", new_session_path, class: "btn" %>
+    </div>
+  <% end %>
+</section>

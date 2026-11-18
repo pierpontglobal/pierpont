@@ -1,0 +1,137 @@
+[
+ {
+  "file": "car-00.jpg",
+  "make": "Toyota",
+  "model": "Camry",
+  "year": 2020,
+  "body_style": "sedan",
+  "credit": "Throwawayacc222, CC0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:2020_Toyota_Camry_S-Edition_front.jpg"
+ },
+ {
+  "file": "car-01.jpg",
+  "make": "Honda",
+  "model": "CR-V",
+  "year": 2019,
+  "body_style": "SUV",
+  "credit": "Matti Blume, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Honda_CR-V,_GIMS_2019,_Le_Grand-Saconnex_(GIMS0705).jpg"
+ },
+ {
+  "file": "car-02.jpg",
+  "make": "Ford",
+  "model": "F-150",
+  "year": 2018,
+  "body_style": "pickup truck",
+  "credit": "Kevauto, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:2018_Ford_F-150_XLT_Crew_Cab,_front_11.10.19.jpg"
+ },
+ {
+  "file": "car-03.jpg",
+  "make": "Volkswagen",
+  "model": "Golf",
+  "year": 2017,
+  "body_style": "hatchback",
+  "credit": "EurovisionNim, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:2017_Volkswagen_Golf_(5G_MY18)_110TSI_Highline_hatchback_(2018-10-12).jpg"
+ },
+ {
+  "file": "car-04.jpg",
+  "make": "Chrysler",
+  "model": "Pacifica",
+  "year": 2019,
+  "body_style": "minivan",
+  "credit": "Alexander-93, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chrysler_Pacifica_(RU)_IMG_8281.jpg"
+ },
+ {
+  "file": "car-05.jpg",
+  "make": "Mazda",
+  "model": "MX-5 Miata",
+  "year": 2016,
+  "body_style": "convertible",
+  "credit": "John Robert McPherson, CC0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Mazda_MX-5_convertible_17_Blackwood_St_Mitchelton_L1060810.jpg"
+ },
+ {
+  "file": "car-06.jpg",
+  "make": "Chevrolet",
+  "model": "Camaro",
+  "year": 1984,
+  "body_style": "coupe",
+  "credit": "John Robert McPherson, CC0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chevrolet_Camaro_Coupe_1984_Pacific_Hwy_Pimpama_Qld_P1070423.jpg"
+ },
+ {
+  "file": "car-07.jpg",
+  "make": "Subaru",
+  "model": "Outback",
+  "year": 2018,
+  "body_style": "station wagon",
+  "credit": "EurovisionNim, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:2018_Subaru_Outback_(BS9_MY18)_2.5i_station_wagon_(2018-10-30)_02.jpg"
+ },
+ {
+  "file": "car-09.jpg",
+  "make": "BMW",
+  "model": "3 Series",
+  "year": 2019,
+  "body_style": "sedan",
+  "credit": "Ethan Llamas, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:BMW_330i_G20_M_Sport_2019.jpg"
+ },
+ {
+  "file": "car-10.jpg",
+  "make": "Jeep",
+  "model": "Wrangler",
+  "year": 2018,
+  "body_style": "SUV",
+  "credit": "Matti Blume, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Jeep_Wrangler_Rubicon,_GIMS_2018,_Le_Grand-Saconnex_(1X7A1811).jpg"
+ },
+ {
+  "file": "car-11.jpg",
+  "make": "Ford",
+  "model": "Transit",
+  "year": 2023,
+  "body_style": "cargo van",
+  "credit": "Alexander-93, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Ford_Transit_Custom_(2023)_1X7A1605.jpg"
+ },
+ {
+  "file": "car-12.jpg",
+  "make": "Nissan",
+  "model": "Altima",
+  "year": 2019,
+  "body_style": "sedan",
+  "credit": "SsmIntrigue, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Nissan_Altima_10-12-2019.jpg"
+ },
+ {
+  "file": "car-13.jpg",
+  "make": "Hyundai",
+  "model": "Tucson",
+  "year": 2022,
+  "body_style": "SUV",
+  "credit": "Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Hyundai_Tucson_(NX4)_1X7A0424.jpg"
+ },
+ {
+  "file": "car-14.jpg",
+  "make": "Kia",
+  "model": "Telluride",
+  "year": 2020,
+  "body_style": "SUV",
+  "credit": "Jason Lawrence, CC BY 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:2020_Kia_Telluride_(2).jpg"
+ },
+ {
+  "file": "car-15.jpg",
+  "make": "Ram",
+  "model": "1500",
+  "year": 2019,
+  "body_style": "pickup truck",
+  "credit": "Kevauto, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:2019_Ram_1500_Laramie,_front_3.1.20.jpg"
+ }
+]

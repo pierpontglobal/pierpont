@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pierpont-ml"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi==0.163.2",
+  "uvicorn==0.54.0",
+  "pydantic==2.14.3",
+  "numpy==2.5.5",
+  "pandas==3.1.1",
+  "lightgbm==4.7.0",
+  "onnxruntime==1.32.0",
+  "pillow==13.0.0",
+  "python-multipart==0.0.34",
+  "prometheus-client==0.26.0",
+]
+
+[project.optional-dependencies]
+train = ["scikit-learn==1.9.1"]
+export = ["torch==2.15.0", "transformers==5.23.0", "onnx==1.23.2", "onnxscript==0.7.2"]
+dev = ["pytest==9.2.0", "httpx==0.28.1", "scikit-learn==1.9.1"]
+
+[tool.setuptools]
+packages = ["pierpont_ml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
