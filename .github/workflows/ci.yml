@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ml:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: ml } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -e ".[dev,train]"
+      - run: pytest -q
+
+  web:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: web } }
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env: { POSTGRES_PASSWORD: postgres }
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 5s
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq libvips
+      - uses: ruby/setup-ruby@v1
+        with: { ruby-version: "4.0.9", bundler-cache: true, working-directory: web }
+      - run: bin/rails db:create db:schema:load
+      - run: bin/rails test
+      - run: bin/brakeman -q --no-pager
+      - run: bin/rubocop -f github
