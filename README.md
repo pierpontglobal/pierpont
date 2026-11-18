@@ -26,7 +26,7 @@ auction platform (2018–2019) as a compact, self-hosted demo: **https://ppg.hec
 - **Simulated market.** Bot dealers value each car around the estimate and bid against visitors, and
   demo auctions relist after they end, so the demo is always live.
 
-The whole stack runs in three pods and about 0.6 GiB of memory; the 2019 version needed seven pods
+The whole stack runs in three pods using about 0.8 GiB of memory; the 2019 version needed seven pods
 (Rails, Sidekiq, Redis, Elasticsearch, Kibana, two React apps) and about 1.6 GiB.
 
 ## Run locally
